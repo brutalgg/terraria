@@ -1,10 +1,5 @@
 #!/usr/bin/with-contenv bash
 
-# permissions
-chown -R abc:abc \
-	/app \
-	/config
-
 # Create default config files if they don't exist
 if [ ! -f "/config/serverconfig.txt" ]; then
     cp /app/serverconfig-default.txt /config/serverconfig.txt
@@ -14,8 +9,21 @@ if [ ! -f "/config/banlist.txt" ]; then
     touch /config/banlist.txt
 fi
 
-# Link Worlds folder to /config so it will save to the correct location
-if [ ! -s "/home/terraria/.local/share/Terraria/Worlds" ]; then
+if [ ! -s "${HOME}/.local/share/Terraria" ]; then
     mkdir -p ${HOME}/.local/share/Terraria
+fi
+
+if [ ! -f "${HOME}/.local/share/Terraria/favorites.json" ]; then
+    echo {} > "${HOME}/.local/share/Terraria/favorites.json"
+fi
+
+# Link Worlds folder to /config so it will save to the correct location
+if [ ! -s "${HOME}/.local/share/Terraria/Worlds" ]; then
     ln -sT /config ${HOME}/.local/share/Terraria/Worlds
 fi
+
+# permissions
+chown -R abc:abc \
+	/app \
+	/config \
+    ${HOME}

@@ -14,7 +14,7 @@ RUN unzip /terraria-server.zip -d /tmp && \
     chmod +x /app/TerrariaServer*
 
 
-FROM ubuntu:bionic
+FROM mono:6.8.0.123-slim
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TERM="xterm"
 ENV HOME=/home/abc
