@@ -14,7 +14,7 @@ RUN unzip /terraria-server.zip -d /tmp && \
     chmod +x /app/TerrariaServer*
 
 
-FROM mono:6.8.0.123-slim
+FROM debian:stable-slim
 ENV DEBIAN_FRONTEND="noninteractive"
 ENV TERM="xterm"
 ENV HOME=/home/abc
@@ -32,7 +32,7 @@ RUN \
     screen \
     && \
 # Add user
-    useradd -U -d ${HOME} -s /bin/false abc && \
+    useradd -U -d ${HOME} -s /bin/bash abc && \
     usermod -G users abc && \
 # Cleanup
     apt-get -y autoremove && \
