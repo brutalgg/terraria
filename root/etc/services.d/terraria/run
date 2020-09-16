@@ -1,18 +1,14 @@
 #!/usr/bin/with-contenv bash
 echo "Starting Terraria Server."
 
-# # set -euo pipefail
+CMD="/app/TerrariaServer -x64 -config /config/serverconfig.txt -banlist /config/banlist.txt"
+# Pass in world if set
+if [ "${world:-null}" != null ]; then
+    if [ ! -f "/config/${world}" ]; then
+        CMD="${CMD} -world /config/${world} -autocreate 1 -worldname $(echo "${world}" | cut -f 1 -d '.')"
+    else
+        CMD="${CMD} -world /config/${world}"
+    fi
+fi
 
-# CMD="/srv/TerrariaServer -x64 -config /data/serverconfig.txt -banlist /data/banlist.txt"
-# # Pass in world if set
-# if [ "${world:-null}" != null ]; then
-#     if [ ! -f "/data/$world" ]; then
-#         CMD="$CMD -world /data/$world -autocreate 1 -worldname $(echo "$world" | cut -f 1 -d '.')"
-#     else
-#         CMD="$CMD -world /data/$world"
-#     fi
-# fi
-
-# echo "Starting container, CMD: $CMD $@"
-# exec s6-setuidgid terraria /bin/sh -c '$CMD'
-exec s6-setuidgid abc /bin/sh -c '/app/TerrariaServer -x64 -config /config/serverconfig.txt -banlist /config/banlist.txt -world /config/hello.wld -autocreate 1 -worldname hello'
+exec s6-setuidgid abc screen -DmS terraria ${CMD}
