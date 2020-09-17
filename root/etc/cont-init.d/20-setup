@@ -9,7 +9,11 @@ if [ ! -f "/config/banlist.txt" ]; then
     touch /config/banlist.txt
 fi
 
-if [ ! -s "${HOME}/.local/share/Terraria" ]; then
+if [ ! -d "/config/backups" ]; then
+    mkdir -p /config/backups
+fi
+
+if [ ! -d "${HOME}/.local/share/Terraria" ]; then
     mkdir -p ${HOME}/.local/share/Terraria
 fi
 

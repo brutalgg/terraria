@@ -30,6 +30,7 @@ RUN \
     apt-get update && \
     apt-get install -y \
     screen \
+    cron \
     && \
 # Add user
     useradd -U -d ${HOME} -s /bin/bash abc && \
