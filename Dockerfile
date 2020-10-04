@@ -13,28 +13,16 @@ RUN unzip /terraria-server.zip -d /tmp && \
     mv /tmp/${VERSION}/Windows/serverconfig.txt /app/serverconfig-default.txt && \
     chmod +x /app/TerrariaServer*
 
-
-FROM debian:stable-slim
-ENV DEBIAN_FRONTEND="noninteractive"
-ENV TERM="xterm"
+FROM brutalgg/ubuntu-base
 ENV HOME=/home/abc
 
-ADD ["https://github.com/just-containers/s6-overlay/releases/download/v1.17.2.0/s6-overlay-amd64.tar.gz", "/tmp"]
-
-ENTRYPOINT ["/init"]
-
 RUN \
-# Extract S6 overlay
-    tar xzf /tmp/s6-overlay-amd64.tar.gz -C / && \
 # Update and get dependencies
     apt-get update && \
     apt-get install -y \
     screen \
     cron \
     && \
-# Add user
-    useradd -U -d ${HOME} -s /bin/bash abc && \
-    usermod -G users abc && \
 # Cleanup
     apt-get -y autoremove && \
     apt-get -y clean && \
@@ -47,3 +35,5 @@ VOLUME /config
 
 COPY --from=base /app/ /app/
 COPY root/ /
+
+WORKDIR /config
