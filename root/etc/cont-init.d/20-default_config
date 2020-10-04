@@ -1,0 +1,38 @@
+#!/usr/bin/with-contenv bash
+
+# Create default config files if they don't exist
+echo "[+] Checking for server config"
+if [ ! -f "/config/serverconfig.txt" ]; then
+    echo "[-] No config found. Creating default..."
+    s6-setuidgid abc cp /app/serverconfig-default.txt /config/serverconfig.txt
+fi
+
+echo "[+] Checking for banlist"
+if [ ! -f "/config/banlist.txt" ]; then
+    echo "[-] No banlist found. Creating empty..."
+    s6-setuidgid abc touch /config/banlist.txt
+fi
+
+echo "[+] Checking for backups folder"
+if [ ! -d "/config/backups" ]; then
+    echo "[-] No Backups folder found. Creating empty..."
+    s6-setuidgid abc mkdir -p /config/backups
+fi
+
+echo "[+] Setting up home folder configuration"
+if [ ! -d "${HOME}/.local/share/Terraria" ]; then
+    echo "[-] No Terraria folder in home. Creating empty..."
+    s6-setuidgid abc mkdir -p ${HOME}/.local/share/Terraria
+fi
+
+if [ ! -f "${HOME}/.local/share/Terraria/favorites.json" ]; then
+    echo "[-] Defaults favorite file missing. Creating empty..."
+    s6-setuidgid abc cp /defaults/favorites.json "${HOME}/.local/share/Terraria/"
+    # s6-setuidgid abc "echo {} > \"${HOME}/.local/share/Terraria/favorites.json\""
+fi
+
+# Link Worlds folder to /config so it will save to the correct location
+if [ ! -s "${HOME}/.local/share/Terraria/Worlds" ]; then
+    echo "[-] Worlds Directory not linked. Creating link..."
+    s6-setuidgid abc ln -sT /config ${HOME}/.local/share/Terraria/Worlds
+fi
