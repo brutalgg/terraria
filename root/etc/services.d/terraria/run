@@ -1,0 +1,14 @@
+#!/usr/bin/with-contenv bash
+echo "Starting Terraria Server."
+
+CMD="/app/TerrariaServer -x64 -config /config/serverconfig.txt -banlist /config/banlist.txt"
+# Pass in world if set
+if [ "${world:-null}" != null ]; then
+    if [ ! -f "/config/${world}" ]; then
+        CMD="${CMD} -world /config/${world} -autocreate 1 -worldname $(echo "${world}" | cut -f 1 -d '.')"
+    else
+        CMD="${CMD} -world /config/${world}"
+    fi
+fi
+
+exec s6-setuidgid abc screen -DmS terraria ${CMD}
