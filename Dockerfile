@@ -2,8 +2,8 @@ FROM alpine:3.11.6 AS base
 
 RUN apk add --update-cache unzip
 
-ENV VERSION=1405
-ENV DL_LINK=https://terraria.org/system/dedicated_servers/archives/000/000/039/original/terraria-server-${VERSION}.zip
+ENV VERSION=1411
+ENV DL_LINK=https://www.terraria.org/system/dedicated_servers/archives/000/000/041/original/terraria-server-${VERSION}.zip
 
 ADD $DL_LINK /terraria-server.zip
 
@@ -15,6 +15,9 @@ RUN unzip /terraria-server.zip -d /tmp && \
 
 FROM brutalgg/ubuntu-base
 ENV HOME=/home/abc
+
+# Uncomment line below to add local apt cache to the container
+# COPY apt-cache-proxy /etc/apt/apt.conf.d/00aptproxy
 
 RUN \
 # Update and get dependencies
