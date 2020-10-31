@@ -10,4 +10,5 @@ echo ' ______    ___  ____   ____    ____  ____   ____   ____  _____   ___  ____
 
 mkdir -m 0755 -p ${HOME}
 chown abc:abc ${HOME}
+chown -R abc:abc /config
 usermod -s /bin/bash -d ${HOME} abc
