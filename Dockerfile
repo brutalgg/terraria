@@ -15,6 +15,7 @@ RUN unzip /terraria-server.zip -d /tmp && \
 
 FROM brutalgg/ubuntu-base
 ENV HOME=/home/abc
+ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
 # Uncomment line below to add local apt cache to the container
 # COPY apt-cache-proxy /etc/apt/apt.conf.d/00aptproxy
