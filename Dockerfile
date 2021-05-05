@@ -2,8 +2,8 @@ FROM alpine:3.11.6 AS base
 
 RUN apk add --update-cache unzip
 
-ENV VERSION=1412
-ENV DL_LINK=https://www.terraria.org/system/dedicated_servers/archives/000/000/042/original/terraria-server-1412.zip
+ENV VERSION=1422
+ENV DL_LINK=https://terraria.org/system/dedicated_servers/archives/000/000/045/original/terraria-server-1422.zip
 
 ADD $DL_LINK /terraria-server.zip
 
@@ -21,13 +21,13 @@ ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 # COPY apt-cache-proxy /etc/apt/apt.conf.d/00aptproxy
 
 RUN \
-# Update and get dependencies
+    # Update and get dependencies
     apt-get update && \
     apt-get install -y \
     screen \
     cron \
     && \
-# Cleanup
+    # Cleanup
     apt-get -y autoremove && \
     apt-get -y clean && \
     rm -rf /var/lib/apt/lists/* && \
