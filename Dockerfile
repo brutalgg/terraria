@@ -13,7 +13,7 @@ RUN unzip /terraria-server.zip -d /tmp && \
     mv /tmp/${VERSION}/Windows/serverconfig.txt /app/serverconfig-default.txt && \
     chmod +x /app/TerrariaServer*
 
-FROM brutalgg/ubuntu-base
+FROM brutalgg/ubuntu
 ENV HOME=/home/abc
 ENV S6_BEHAVIOUR_IF_STAGE2_FAILS=2
 
